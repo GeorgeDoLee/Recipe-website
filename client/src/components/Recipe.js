@@ -1,6 +1,9 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 const Recipe = ({ recipe }) => {
+  const navigate = useNavigate();
+
   return (
     <div className='flex flex-col items-center gap-3 md:items-stretch md:flex-row'>
       <div className='w-20 h-20 rounded-md md:w-36 md:h-36 bg-blue-rich' />
@@ -10,7 +13,7 @@ const Recipe = ({ recipe }) => {
           <h1 className='text-base font-semibold break-words whitespace-normal md:text-lg'>
             name
           </h1>
-          <h3 className='text-xs'>George Dolidze</h3>
+          <h3 onClick={() => navigate('/profile/anzora')} className='text-xs'>George Dolidze</h3>
         </div>
         <div className='flex flex-col items-center md:items-stretch'>
           <h2 className='text-xs md:text-sm'>Ingredients:</h2>
@@ -34,7 +37,7 @@ const Recipe = ({ recipe }) => {
           <button className='hidden cursor-pointer md:block'>
             share
           </button>
-          <button className='cursor-pointer'>
+          <button onClick={() => navigate('/recipe/4')} className='cursor-pointer'>
             see more
           </button>
         </div>

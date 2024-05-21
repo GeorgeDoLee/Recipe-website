@@ -163,7 +163,7 @@ const EditProfile = () => {
                 <FormItemsRenderer key={index} item={item} register={register} errors={errors} newPassword={newPassword} />
             ))}
             <div className='flex justify-between mt-2 text-blue-rich'>
-                <button disabled={updateIsLoading || deletionIsLoading} onClick={() => navigate('/profile')} className='px-1 py-1 text-sm border rounded-md sm:px-2 sm:text-base disabled:cursor-not-allowed disabled:opacity-70 border-blue-rich'>
+                <button disabled={updateIsLoading || deletionIsLoading} onClick={() => navigate(`/profile/${userInfo.name}`)} className='px-1 py-1 text-sm border rounded-md sm:px-2 sm:text-base disabled:cursor-not-allowed disabled:opacity-70 border-blue-rich'>
                     Cancel
                 </button>
                 <div className='flex gap-2'>

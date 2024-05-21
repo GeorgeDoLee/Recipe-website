@@ -74,7 +74,7 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <button onClick={() => navigate('/profile')} className='py-1 text-base font-semibold border-2 border-white rounded-md md:border-blue-rich md:px-3 lg:px-5'>Profile</button>
+                            <button onClick={() => navigate(`/profile/${userInfo.name}`)} className='py-1 text-base font-semibold border-2 border-white rounded-md md:border-blue-rich md:px-3 lg:px-5'>Profile</button>
                             <button onClick={() => logoutHandler()} className='py-1 text-base font-semibold border-2 border-white rounded-md md:border-blue-rich md:px-3 lg:px-5'>Log Out</button>
                         </>
                     )}

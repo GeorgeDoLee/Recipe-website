@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { TbUserSquare } from "react-icons/tb";
 import { useSelector } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FaRegEdit } from "react-icons/fa";
 import { useQuery } from '@tanstack/react-query';
 
 import MainLayout from '../../components/MainLayout';
 import {getUserProfile} from '../../services/userServices';
+import Recipes from '../../components/Recipes';
 
 const ProfilePage = () => {
+    const { username } = useParams();
     const navigate = useNavigate();
     const user = useSelector(state => state.user.userInfo);
     const { data: userInfo, isLoading: profileIsLoading, error: profileError } = useQuery({
@@ -38,12 +40,22 @@ const ProfilePage = () => {
                         <div className='flex flex-col justify-center gap-1 text-blue-rich'>
                             <p className='flex items-center justify-between gap-3 text-xl font-semibold sm:text-3xl'>
                                 {userInfo?.name.toUpperCase()}
-                                <FaRegEdit onClick={() => navigate('/profile/edit')} className='w-6 h-auto' />
+                                {username === user.name && <FaRegEdit onClick={() => navigate(`/profile/${username}/edit`)} className='w-6 h-auto' />}
                             </p>
                             <p className='text-base sm:text-lg'>{userInfo?.email}</p>
                         </div>
                     </div>
                 </div> 
+                {username === user.name ?
+                    <>
+                        <Recipes title='My Recipes' length={3} />
+                        <Recipes title='Saved Recipes' length={3} />
+                    </>
+                    :
+                    <>
+                        <Recipes title={`${username}\'s Recipes`} length={6} />
+                    </>
+                }
                 <Outlet />
             </section>
         </MainLayout>
