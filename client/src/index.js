@@ -45,10 +45,8 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        {/* <div className='overflow-auto w-svw'> */}
           <RouterProvider router={router} />
           <Toaster />
-        {/* </div> */}
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>

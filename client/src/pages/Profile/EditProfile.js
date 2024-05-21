@@ -53,7 +53,7 @@ const formItems = [
 
 const FormItemsRenderer = ({item, register, errors, newPassword}) => {
     return (
-        <div className='flex flex-col text-zinc-800'>
+        <div className='flex flex-col text-blue-rich'>
             <label htmlFor={item.id} className='mb-2 font-semiboldasd'>{item.text}</label>
             <input 
                 type={item.type} 
@@ -77,7 +77,7 @@ const FormItemsRenderer = ({item, register, errors, newPassword}) => {
                     } : null,
                 })}
                 placeholder={item.id === 'confirmNewPassword' ? item.text : `Enter ${item.text.toLowerCase()}`} 
-                className='p-2 border-2 rounded-md border-zinc-800'
+                className='p-2 bg-transparent border-2 rounded-md border-blue-rich'
             />
             {errors[item.id]?.message && (
                 <p className='text-red-500 text-md'>{errors[item.id].message}</p>
@@ -162,8 +162,8 @@ const EditProfile = () => {
             {formItems.map((item, index) => (
                 <FormItemsRenderer key={index} item={item} register={register} errors={errors} newPassword={newPassword} />
             ))}
-            <div className='flex justify-between mt-2 text-zinc-800'>
-                <button disabled={updateIsLoading || deletionIsLoading} onClick={() => navigate('/profile')} className='px-1 py-1 text-sm border rounded-md sm:px-2 sm:text-base disabled:cursor-not-allowed disabled:opacity-70 border-zinc-800'>
+            <div className='flex justify-between mt-2 text-blue-rich'>
+                <button disabled={updateIsLoading || deletionIsLoading} onClick={() => navigate('/profile')} className='px-1 py-1 text-sm border rounded-md sm:px-2 sm:text-base disabled:cursor-not-allowed disabled:opacity-70 border-blue-rich'>
                     Cancel
                 </button>
                 <div className='flex gap-2'>
@@ -177,7 +177,7 @@ const EditProfile = () => {
                     <button 
                         disabled={updateIsLoading || !isValid}
                         type='submit'
-                        className='px-1 py-1 text-sm border rounded-md sm:px-2 sm:text-base disabled:cursor-not-allowed disabled:opacity-70 border-zinc-800'
+                        className='px-1 py-1 text-sm border rounded-md sm:px-2 sm:text-base disabled:cursor-not-allowed disabled:opacity-70 border-blue-rich'
                     >
                         Save Changes
                     </button>

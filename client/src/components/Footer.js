@@ -7,7 +7,7 @@ const Footer = () => {
   const github = 'https://github.com/GeorgeDoLee';
   
   return (
-    <section className='container px-5 py-10 sm:px-10 bg-zinc-800'>
+    <section className='container px-5 py-10 sm:px-10 bg-blue-rich'>
       <div className='flex flex-col items-center gap-10 text-white'>
         <div className='flex flex-col items-center gap-5'>
           <h3 className='text-base font-semibold sm:text-lg'>Quick Links</h3>

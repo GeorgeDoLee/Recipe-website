@@ -32,10 +32,10 @@ const ProfilePage = () => {
                         {userInfo?.avatar ? (
                             <img src={userInfo?.avatar} alt="user image" className='w-20 h-auto sm:w-28' />
                         ) : (
-                            <TbUserSquare className='w-20 h-auto sm:w-28 text-zinc-800' />
+                            <TbUserSquare className='w-20 h-auto sm:w-28 text-blue-rich' />
                         )}
 
-                        <div className='flex flex-col justify-center gap-1 text-zinc-800'>
+                        <div className='flex flex-col justify-center gap-1 text-blue-rich'>
                             <p className='flex items-center justify-between gap-3 text-xl font-semibold sm:text-3xl'>
                                 {userInfo?.name.toUpperCase()}
                                 <FaRegEdit onClick={() => navigate('/profile/edit')} className='w-6 h-auto' />

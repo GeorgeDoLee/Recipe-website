@@ -35,7 +35,7 @@ const formItems = [
 const FormItemsRenderer = ({item, register, errors}) => {
     return (  
         <div className='flex flex-col mt-2'>
-            <label htmlFor={item.id} className='text-lg text-zinc-800'>{item.text}</label>
+            <label htmlFor={item.id} className='text-lg text-blue-rich'>{item.text}</label>
             <input 
                 type={item.type} 
                 {...register(item.id, {
@@ -53,7 +53,7 @@ const FormItemsRenderer = ({item, register, errors}) => {
                     },
                 })}
                 placeholder={`Enter ${item.text.toLowerCase()}`} 
-                className='p-2 mt-2 border rounded-md outline-none border-zinc-800'
+                className='p-2 mt-2 bg-transparent border rounded-md outline-none text-blue-rich border-blue-rich'
             />
             {errors[item.id]?.message && (
                 <p className='text-base text-red-500'>{errors[item.id].message}</p>
@@ -101,14 +101,14 @@ const SignInPage = () => {
     <MainLayout>
         <section className='container py-20'>
             <div className='flex flex-col w-[80%] sm:w-full max-w-sm mx-auto'>
-                <h1 className='self-center text-xl font-semibold text-zinc-800'>Sign In</h1>
+                <h1 className='self-center text-xl font-semibold text-blue-rich'>Sign In</h1>
                 <form onSubmit={handleSubmit(submitHandler)}>
                     {formItems.map((item, index) => (
                         <FormItemsRenderer key={index} item={item} register={register} errors={errors} />
                     ))}
-                    <button disabled={!isValid || isLoading} className='w-full py-2 mt-5 text-lg font-semibold text-center border-2 rounded-md disabled:opacity-70 disabled:cursor-not-allowed border-zinc-800'>SIGN IN</button>
+                    <button disabled={!isValid || isLoading} className='w-full py-2 mt-5 text-lg font-semibold text-center border-2 rounded-md disabled:opacity-70 disabled:cursor-not-allowed border-blue-rich'>SIGN IN</button>
                 </form>
-                <div className='flex gap-2 mt-2 text-base'>
+                <div className='flex gap-2 mt-2 text-base text-blue-rich'>
                     <span>Don't have an account?</span><Link to='/sign-up' className='text-blue-900'>Sign Up</Link>
                 </div>
             </div>

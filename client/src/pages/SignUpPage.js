@@ -55,7 +55,7 @@ const formItems = [
 const FormItemsRenderer = ({item, register, errors, password}) => {
     return (  
         <div className='flex flex-col mt-2'>
-            <label htmlFor={item.id} className='text-lg text-zinc-800'>{item.text}</label>
+            <label htmlFor={item.id} className='text-lg text-blue-rich'>{item.text}</label>
             <input 
                 type={item.type} 
                 {...register(item.id, {
@@ -78,7 +78,7 @@ const FormItemsRenderer = ({item, register, errors, password}) => {
                     } : null,
                 })}
                 placeholder={item.id === 'confirmPassword' ? item.text : `Enter ${item.text.toLowerCase()}`} 
-                className='p-2 mt-2 border rounded-md outline-none border-zinc-800'
+                className='p-2 mt-2 bg-transparent border rounded-md outline-none border-blue-rich'
             />
             {errors[item.id]?.message && (
                 <p className='text-red-500 text-md'>{errors[item.id].message}</p>
@@ -131,14 +131,14 @@ const SignUpPage = () => {
     <MainLayout>
         <section className='container py-20'>
             <div className='flex flex-col w-[80%] sm:w-full max-w-sm mx-auto'>
-                <h1 className='self-center text-xl font-semibold text-zinc-800'>Sign Up</h1>
+                <h1 className='self-center text-xl font-semibold text-blue-rich'>Sign Up</h1>
                 <form onSubmit={handleSubmit(submitHandler)}>
                     {formItems.map((item, index) => (
                         <FormItemsRenderer key={index} item={item} register={register} errors={errors} password={password} />
                     ))}
-                    <button disabled={!isValid || isLoading} className='w-full py-2 mt-5 text-lg font-semibold text-center border-2 rounded-md disabled:opacity-70 disabled:cursor-not-allowed border-zinc-800'>REGISTER</button>
+                    <button disabled={!isValid || isLoading} className='w-full py-2 mt-5 text-lg font-semibold text-center border-2 rounded-md disabled:opacity-70 disabled:cursor-not-allowed border-blue-rich'>REGISTER</button>
                 </form>
-                <div className='flex gap-2 mt-2 text-md'>
+                <div className='flex gap-2 mt-2 text-md text-blue-rich'>
                     <span>Already have an account?</span><Link to='/sign-in' className='text-blue-900'>Sign In</Link>
                 </div>
             </div>
