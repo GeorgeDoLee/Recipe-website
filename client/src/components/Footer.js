@@ -2,6 +2,25 @@ import React from 'react'
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
+const navItems = [
+  {
+      name: 'Home',
+      link: '/',
+  },
+  {
+      name: 'My Recipes',
+      link: '/'
+  },
+  {
+      name: 'Saved Recipes',
+      link: '/'
+  },
+  {
+      name: 'About Us',
+      link: '/'
+  }
+]
+
 const Footer = () => {
   const linkedin = 'https://www.linkedin.com/in/giorgi-dolidze-05428b278/';
   const github = 'https://github.com/GeorgeDoLee';
@@ -11,16 +30,14 @@ const Footer = () => {
       <div className='flex flex-col items-center gap-10 text-white'>
         <div className='flex flex-col items-center gap-5'>
           <h3 className='text-base font-semibold sm:text-lg'>Quick Links</h3>
-          <ul className='flex gap-10 text-sm sm:text-base'>
-            <li>
-              <Link to='/'>home</Link>
-            </li>
-            <li>
-              <Link to='/'>about us</Link>
-            </li>
-            <li>
-              <Link to='/'>contact us</Link>
-            </li>
+          <ul className='grid grid-cols-2 grid-rows-2 gap-5 text-sm sm:gap-3 sm:grid-rows-1 justify-items-center sm:grid-cols-4 sm:text-base'>
+            {navItems.map((item, index) => (
+              <li key={index}>
+                <Link to={item.link} className='block text-center sm:text-left'>
+                  {item.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         

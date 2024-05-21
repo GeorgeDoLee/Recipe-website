@@ -13,11 +13,15 @@ const navItems = [
         link: '/',
     },
     {
-        name: 'About Us',
+        name: 'My Recipes',
         link: '/'
     },
     {
-        name: 'Contact Us',
+        name: 'Saved Recipes',
+        link: '/'
+    },
+    {
+        name: 'About Us',
         link: '/'
     }
 ]
