@@ -14,11 +14,11 @@ const navItems = [
     },
     {
         name: 'My Recipes',
-        link: '/'
+        link: '/my-recipes'
     },
     {
         name: 'Saved Recipes',
-        link: '/'
+        link: '/saved-recipes'
     },
     {
         name: 'About Us',
