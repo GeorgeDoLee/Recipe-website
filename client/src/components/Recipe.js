@@ -11,25 +11,26 @@ const Recipe = ({ recipe }) => {
       <div className='flex flex-col gap-3 items-center md:items-stretch md:justify-between  md:w-[180px] text-blue-rich'>
         <div className='flex flex-col items-center md:items-stretch'>
           <h1 className='text-base font-semibold break-words whitespace-normal md:text-lg'>
-            name
+            {recipe.title}
           </h1>
-          <h3 onClick={() => navigate('/profile/anzora')} className='text-xs'>George Dolidze</h3>
+          <h3 onClick={() => navigate(`/profile/${recipe.author}/${recipe.authorId}`)} className='text-xs'>{recipe.author}</h3>
         </div>
         <div className='flex flex-col items-center md:items-stretch'>
           <h2 className='text-xs md:text-sm'>Ingredients:</h2>
           <ul className='flex flex-wrap justify-center gap-2 mt-1 text-sm italic break-words md:justify-stretch md:items-start'>
-            <li className='p-1 text-xs break-words whitespace-normal max-w-[150px] border rounded-md border-blue-rich bg-blue-rich text-cornstick'>
-              eggs
-            </li>
-            <li className='p-1 text-xs break-words whitespace-normal max-w-[150px] border rounded-md border-blue-rich bg-blue-rich text-cornstick'>
-              cheese
-            </li>
-            <li className='p-1 text-xs break-words whitespace-normal max-w-[150px] border rounded-md border-blue-rich bg-blue-rich text-cornstick'>
-              bread
-            </li>
-            <li className='p-1 text-xs break-words whitespace-normal max-w-[150px] border rounded-md border-blue-rich bg-blue-rich text-cornstick'>
-              ...
-            </li>
+            {recipe.ingredients.slice(0, 3).map((ingredient, index) => (
+              <li 
+                key={index}
+                className='p-1 text-xs break-words whitespace-normal max-w-[150px] border rounded-md border-blue-rich bg-blue-rich text-cornstick'
+              >
+                {ingredient}
+              </li>
+            ))}
+            <li 
+                className='p-1 text-xs break-words whitespace-normal max-w-[150px] border rounded-md border-blue-rich bg-blue-rich text-cornstick'
+              >
+                ...
+              </li>
           </ul>
         </div>
         
@@ -37,7 +38,7 @@ const Recipe = ({ recipe }) => {
           <button className='hidden cursor-pointer md:block'>
             share
           </button>
-          <button onClick={() => navigate('/recipe/4')} className='cursor-pointer'>
+          <button onClick={() => navigate(`/recipe/${recipe._id}`)} className='cursor-pointer'>
             see more
           </button>
         </div>

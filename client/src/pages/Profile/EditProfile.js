@@ -120,6 +120,8 @@ const EditProfile = () => {
         }
     })
 
+    console.log(userInfo);
+
     const {mutate: deleteMyProfile, isLoading: deletionIsLoading} = useMutation({
         mutationFn: () => {
             return deleteProfile({
@@ -129,7 +131,7 @@ const EditProfile = () => {
         onSuccess: () => {
             dispatch(setUserInfo(null));
             localStorage.setItem('account', JSON.stringify(null));
-            queryClient.invalidateQueries(['profile']);
+            queryClient.invalidateQueries([`profile/${userInfo._id}`]);
             toast.success('Profile Deleted successfully')
             navigate('/');
         },
@@ -163,7 +165,7 @@ const EditProfile = () => {
                 <FormItemsRenderer key={index} item={item} register={register} errors={errors} newPassword={newPassword} />
             ))}
             <div className='flex justify-between mt-2 text-blue-rich'>
-                <button disabled={updateIsLoading || deletionIsLoading} onClick={() => navigate(`/profile/${userInfo.name}`)} className='px-1 py-1 text-sm border rounded-md sm:px-2 sm:text-base disabled:cursor-not-allowed disabled:opacity-70 border-blue-rich'>
+                <button disabled={updateIsLoading || deletionIsLoading} onClick={() => navigate(`/profile/${userInfo.name}/${userInfo._id}`)} className='px-1 py-1 text-sm border rounded-md sm:px-2 sm:text-base disabled:cursor-not-allowed disabled:opacity-70 border-blue-rich'>
                     Cancel
                 </button>
                 <div className='flex gap-2'>

@@ -4,7 +4,7 @@ import authGuard from '../middlewares/authGuard.js';
 
 const router = express.Router();
 
-router.get('/profile', authGuard, userProfile);
+router.get('/profile/:id', userProfile);
 router.put('/update-profile', authGuard, updateProfile);
 router.delete('/delete-profile', authGuard, deleteProfile);
 

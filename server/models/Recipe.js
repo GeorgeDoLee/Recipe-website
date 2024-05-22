@@ -5,6 +5,7 @@ const RecipeSchema = new Schema({
     description: { type: String, required: true },
     ingredients: {type: [String], required: true},
     totalTime: { type: Number, required: true },
+    author: { type: String, required: true },
     authorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     image: { type: String, default: ''},
     ratings: [{ type: Number, min: 1, max: 5 }],

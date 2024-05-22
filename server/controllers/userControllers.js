@@ -2,7 +2,7 @@ import User from "../models/User.js";
 
 const userProfile = async (req, res, next) => {
     try {
-        let user = await User.findById(req.user._id);
+        let user = await User.findById(req.params.id);
 
         if(user){
             return res.status(200).json({

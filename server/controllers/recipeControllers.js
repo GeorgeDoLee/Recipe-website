@@ -10,7 +10,8 @@ const publishRecipe =  async (req, res, next) => {
             description,
             ingredients,
             totalTime,
-            authorId
+            author: req.user.name,
+            authorId: req.user._id
         });
 
         return res.status(200).json(recipe)
@@ -24,10 +25,9 @@ const getRecipes = async (req, res, next) => {
       let recipes;
   
       let filter = {};
-      if (req.body.authorId) {
-        filter.authorId = req.body.authorId;
+      if (req.params.authorId) {
+        filter.authorId = req.params.authorId;
       }
-  
       recipes = await Recipe.find(filter);
   
       if (!recipes.length) {
@@ -42,7 +42,7 @@ const getRecipes = async (req, res, next) => {
   
 const getRecipe = async (req, res, next) => {
     try {
-        let recipe = await Recipe.findById(req.body._id);
+        let recipe = await Recipe.findById(req.params.id);
 
         if(recipe){
             return res.status(200).json(recipe)

@@ -5,7 +5,7 @@ const userInfoFromStorage = localStorage.getItem('account') ? JSON.parse(localSt
 
 const store = configureStore({
     reducer: {
-        user: userReducer
+        user: userReducer,
     },
     preloadedState: {
         user: { userInfo: userInfoFromStorage }
