@@ -41,11 +41,11 @@ const updateProfile = async (req, res, next) => {
         const updatedUserProfile = await user.save();
 
         return res.status(200).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            avatar: user.avatar,
+            _id: updatedUserProfile._id,
+            name: updatedUserProfile.name,
+            email: updatedUserProfile.email,
+            password: updatedUserProfile.password,
+            avatar: updatedUserProfile.avatar,
             token: await updatedUserProfile.generateJWT()
         })
     } catch (error) {

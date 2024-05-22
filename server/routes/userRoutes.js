@@ -8,4 +8,4 @@ router.get('/profile', authGuard, userProfile);
 router.put('/update-profile', authGuard, updateProfile);
 router.delete('/delete-profile', authGuard, deleteProfile);
 
-export {router as userRouter};
+export {router as userRoutes};

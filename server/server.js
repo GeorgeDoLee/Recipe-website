@@ -3,9 +3,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 import connectDB from './config/db.js';
-import { authRoutes } from './routes/authRoutes.js';
 import { errorResponseHandler, invalidPathHandler } from './middlewares/errorHandler.js';
-import { userRouter } from './routes/userRoutes.js';
+import { authRoutes } from './routes/authRoutes.js';
+import { userRoutes } from './routes/userRoutes.js';
+import { recipeRoutes } from './routes/recipeRoutes.js';
 
 dotenv.config();
 connectDB();
@@ -21,7 +22,8 @@ app.listen(PORT, () => {
 })
 
 app.use('/api/auth', authRoutes);
-app.use('/api/user', userRouter);
+app.use('/api/user', userRoutes);
+app.use('/api/recipe', recipeRoutes);
 
 app.use(invalidPathHandler);
 app.use(errorResponseHandler);
