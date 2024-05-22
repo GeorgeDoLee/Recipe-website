@@ -13,38 +13,39 @@ const publishRecipe =  async (req, res, next) => {
             authorId
         });
 
-        return res.status(200).json({
-            _id: recipe._id,
-            title: recipe.title,
-            description: recipe.description,
-            ingredients: recipe.ingredients,
-            totalTime: recipe.totalTime,
-            authorId: recipe.authorId
-        })
+        return res.status(200).json(recipe)
     } catch (error) {
         next(error);
     }
 }
 
 const getRecipes = async (req, res, next) => {
+    try {
+      let recipes;
   
-}
-
+      let filter = {};
+      if (req.body.authorId) {
+        filter.authorId = req.body.authorId;
+      }
+  
+      recipes = await Recipe.find(filter);
+  
+      if (!recipes.length) {
+        return res.status(200).json({ message: 'There are no recipes to display.' });
+      }
+  
+      return res.status(200).json(recipes);
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 const getRecipe = async (req, res, next) => {
     try {
         let recipe = await Recipe.findById(req.body._id);
 
         if(recipe){
-            return res.status(200).json({
-                _id: recipe._id,
-                title: recipe.title,
-                description: recipe.description,
-                ingredients: recipe.ingredients,
-                totalTime: recipe.totalTime,
-                authorId: recipe.authorId,
-                image: recipe.image,
-                ratings: recipe.ratings
-            })
+            return res.status(200).json(recipe)
         } else {
             let error = new Error('recipe not found');
             error.statusCode = 404;
@@ -72,16 +73,7 @@ const updateRecipe = async (req, res, next) => {
 
         const updatedRecipe = await recipe.save();
 
-        return res.status(200).json({
-            _id: updatedRecipe._id,
-            title: updatedRecipe.title,
-            description: updatedRecipe.description,
-            ingredients: updatedRecipe.ingredients,
-            totalTime: updatedRecipe.totalTime,
-            authorId: updatedRecipe.authorId,
-            image: updatedRecipe.image,
-            ratings: updatedRecipe.ratings
-        })
+        return res.status(200).json(updatedRecipe)
     } catch (error) {
         next(error);
     }
