@@ -40,10 +40,12 @@ const Home = () => {
     hasNextPage: discoverHasRecipesNextPage
   } = useInfiniteQuery({
     queryKey: ['discoverRecipes'],
-    queryFn: ({ pageParam = 1 }) => getRecipes({ 
-      page: pageParam, 
-      limit: 9
-    }),
+    queryFn: ({ pageParam = 1 }) => getRecipes(
+      { 
+        page: pageParam, 
+        limit: 9
+      }
+    ),
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length < 9 ? undefined : allPages.length + 1;
     }

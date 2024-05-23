@@ -38,7 +38,7 @@ const Recipe = ({ recipe }) => {
           <button className='hidden cursor-pointer md:block'>
             share
           </button>
-          <button onClick={() => navigate(`/recipe/${recipe._id}`)} className='cursor-pointer'>
+          <button onClick={() => navigate(`/recipe/${recipe?._id}`)} className='cursor-pointer'>
             see more
           </button>
         </div>

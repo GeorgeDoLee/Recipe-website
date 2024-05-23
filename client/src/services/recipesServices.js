@@ -3,12 +3,14 @@ import axios from "axios";
 export const getRecipes = async (pagination, filters) => {
     try {
         const { page, limit } = pagination;
+
         let query = `?page=${page}&limit=${limit}`
         if (filters) {
             Object.keys(filters).forEach(key => {
                 query += `&${key}=${encodeURIComponent(filters[key])}`;
             });
         }
+
         const { data } = await axios.get(`/api/recipe/recipes/${query}`);
         await new Promise(resolve => setTimeout(resolve, 1000));
         return data;

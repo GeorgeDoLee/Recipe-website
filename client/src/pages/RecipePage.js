@@ -2,8 +2,8 @@ import React from 'react'
 import { useNavigate, useParams } from 'react-router'
 import MainLayout from '../components/MainLayout';
 import Recipes from '../components/Recipes';
-import { getRecipe } from '../services/recipesServices';
-import { useQuery } from '@tanstack/react-query';
+import { getRecipe, getRecipes } from '../services/recipesServices';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 const RecipePage = () => {
     const { id } = useParams();
@@ -12,8 +12,32 @@ const RecipePage = () => {
         queryFn: () => {
             return getRecipe(id);
         },
-        queryKey: ['recipe']
-      })
+        queryKey: [`recipe/${id}`]
+    })
+
+    const {
+        data: similarRecipes,
+        isFetching: similarRecipesIsFetching,
+        isFetchingNextPage: similarRecipesIsFetchingNextPage,
+        error: similarRecipesError,
+        fetchNextPage: fetchSimilarRecipesNextPage,
+        hasNextPage: similarRecipesHasNextPage
+      } = useInfiniteQuery({
+        queryKey: [`similarRecipesTo${recipe?._id}`],
+        queryFn: ({ pageParam = 1 }) => getRecipes(
+            { 
+                page: pageParam, 
+                limit: 3
+            },
+            { 
+                ingredients: recipe?.ingredients,
+                _id: recipe?._id
+            } 
+        ),
+        getNextPageParam: (lastPage, allPages) => {
+          return lastPage.length < 3 ? undefined : allPages.length + 1;
+        }
+    });
     
   return (
     <MainLayout>
@@ -57,6 +81,14 @@ const RecipePage = () => {
                     </div>
                 </div>
             </div>
+            <Recipes
+                title="Similar Recipes"
+                recipes={similarRecipes?.pages.flatMap(page => page) || []}
+                fetchNextPage={fetchSimilarRecipesNextPage}
+                isFetching={similarRecipesIsFetching}
+                isFetchingNextPage={similarRecipesIsFetchingNextPage}
+                hasNextPage={similarRecipesHasNextPage}
+            />
         </section>
     </MainLayout>
   )
