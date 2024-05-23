@@ -11,7 +11,7 @@ const Recipe = ({ recipe }) => {
       <div className='flex flex-col gap-3 items-center md:items-stretch md:justify-between  md:w-[180px] text-blue-rich'>
         <div className='flex flex-col items-center md:items-stretch'>
           <h1 className='text-base font-semibold break-words whitespace-normal md:text-lg'>
-            {recipe.title}
+            {recipe.title} 
           </h1>
           <h3 onClick={() => navigate(`/profile/${recipe.author}/${recipe.authorId}`)} className='text-xs'>{recipe.author}</h3>
         </div>

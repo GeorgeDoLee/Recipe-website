@@ -1,10 +1,12 @@
 import axios from "axios";
 
-
-export const getRecipes = async (authorId) => {
+export const getRecipes = async (pagination, authorId) => {
     try {
-        console.log(authorId);
-        const { data } = await axios.get(`/api/recipe/recipes/${authorId? authorId : ''}`)
+        const { page, limit } = pagination;
+        const query = `?page=${page}&limit=${limit}`
+        const author = authorId ? authorId : '';
+        const { data } = await axios.get(`/api/recipe/recipes/${author}${query}`);
+        await new Promise(resolve => setTimeout(resolve, 1000));
         return data;
     } catch (error) {
         if(error.response && error.response.data.message){

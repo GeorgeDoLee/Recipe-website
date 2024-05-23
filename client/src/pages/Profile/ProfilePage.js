@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TbUserSquare } from "react-icons/tb";
 import { useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FaRegEdit } from "react-icons/fa";
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import MainLayout from '../../components/MainLayout';
 import {getUserProfile} from '../../services/userServices';
@@ -14,7 +14,7 @@ const ProfilePage = () => {
     const { username, id } = useParams();
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const user = useSelector(state => state.user.userInfo);
+    const loggedUser = useSelector(state => state.user.userInfo);
     const { data: userInfo, isLoading: profileIsLoading, error: profileError } = useQuery({
         queryFn: () => {
             return getUserProfile(id);
@@ -22,18 +22,28 @@ const ProfilePage = () => {
         queryKey: [`profile/${id}`]
     })
 
-    const { data: usersRecipes, isLoading: usersRecipesAreLoading, error: usersRecipesError } = useQuery({
-        queryFn: () => {
-            return getRecipes(userInfo._id);
-        },
-        queryKey: [`recipes/${userInfo ? userInfo._id : ''}`]
-    })
+    const {
+        data: userRecipes,
+        isFetching: userRecipesIsFetching,
+        error: userRecipesError,
+        fetchNextPage: fetchUserRecipesNextPage,
+        hasNextPage: userRecipesHasNextPage
+      } = useInfiniteQuery({
+        queryKey: [`${username}Recipes`],
+        queryFn: ({ pageParam = 1 }) => getRecipes({ 
+          page: pageParam, 
+          limit: 6 
+        }, id),
+        getNextPageParam: (lastPage, allPages) => {
+          return lastPage.length < 6 ? undefined : allPages.length + 1;
+        }
+    });
 
     return (
         <MainLayout>
             <section className='container p-5 pb-12'>
                 <div className='flex flex-col items-center max-w-sm gap-5 mx-auto'>
-                        <div className='flex gap-5'>
+                    <div className='flex gap-5'>
                         {userInfo?.avatar ? (
                             <img src={userInfo?.avatar} alt="user image" className='w-20 h-auto sm:w-28' />
                         ) : (
@@ -43,7 +53,7 @@ const ProfilePage = () => {
                         <div className='flex flex-col justify-center gap-1 text-blue-rich'>
                             <p className='flex items-center justify-between gap-3 text-xl font-semibold sm:text-3xl'>
                                 {userInfo?.name.toUpperCase()}
-                                {username === user?.name && 
+                                {id === loggedUser?._id && 
                                     <FaRegEdit 
                                         onClick={() => navigate(`/profile/${userInfo?.name}/${id}/edit`)} 
                                         className='w-6 h-auto' 
@@ -58,15 +68,21 @@ const ProfilePage = () => {
                     </div>
                 </div> 
                 {pathname.split('/')[4] !== 'edit' ? 
-                    username === user?.name ?
-                        <>
-                            <Recipes title='My Recipes' length={3} recipes={usersRecipes} />
-                            <Recipes title='Saved Recipes' length={3} />
-                        </>
-                        :
-                        <>
-                            {userInfo && <Recipes title={`${userInfo.name}\'s Recipes`} length={6} recipes={usersRecipes} />}
-                        </>
+                    <>
+                        <Recipes
+                            title="My Recipes"
+                            recipes={userRecipes?.pages.flatMap(page => page) || []}
+                            fetchNextPage={fetchUserRecipesNextPage}
+                            isFetching={userRecipesIsFetching}
+                            hasNextPage={userRecipesHasNextPage}
+                        />
+                        {id === loggedUser?._id && 
+                            <Recipes 
+                                title='Saved Recipes' 
+                                recipes={[]} 
+                            /> 
+                        }
+                    </>
                     : null
                 }
                 <Outlet />

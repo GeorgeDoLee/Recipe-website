@@ -1,34 +1,69 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-
+import { useInfiniteQuery } from '@tanstack/react-query';
 import MainLayout from '../components/MainLayout';
 import Recipes from '../components/Recipes';
-import {getRecipes} from '../services/recipesServices'
+import { getRecipes } from '../services/recipesServices';
 import { useSelector } from 'react-redux';
 
 const Home = () => {
   const userInfo = useSelector(state => state.user.userInfo);
-  const { data: myRecipes, isLoading: myRecipesAreLoading, error: myRecipesError } = useQuery({
-      queryFn: () => {
-          return getRecipes(userInfo._id);
-      },
-      queryKey: [`recipes/${userInfo ? userInfo._id : ''}`]
-  })
 
-  const { data: recipes, isLoading: recipesAreLoading, error: recipesError } = useQuery({
-    queryFn: () => {
-        return getRecipes();
-    },
-    queryKey: ['recipes']
-  })
+  const {
+    data: myRecipes,
+    isFetching: myRecipesIsFetching,
+    error: myRecipesError,
+    fetchNextPage: fetchMyRecipesNextPage,
+    hasNextPage: myRecipesHasNextPage
+  } = useInfiniteQuery({
+    queryKey: ['myRecipes'],
+    queryFn: ({ pageParam = 1 }) => getRecipes({ 
+      page: pageParam, limit: 3 
+    }, userInfo._id),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length < 3 ? undefined : allPages.length + 1;
+    }
+  });
+
+  const {
+    data: discoverRecipes,
+    isFetching: discoverRecipesIsFetching,
+    error: discoverRecipesError,
+    fetchNextPage: fetchDiscoverRecipesNextPage,
+    hasNextPage: discoverHasRecipesNextPage
+  } = useInfiniteQuery({
+    queryKey: ['discoverRecipes'],
+    queryFn: ({ pageParam = 1 }) => getRecipes({ 
+      page: pageParam, 
+      limit: 9
+    }),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length < 9 ? undefined : allPages.length + 1;
+    }
+  });
 
   return (
     <MainLayout>
-      <Recipes title='My Recipes' length={3} seeMore='/my-recipes' recipes={myRecipes} />
-      <Recipes title='Saved Recipes' length={3} seeMore='/saved-recipes' recipes={recipes} />
-      <Recipes title='Discover' length={18} recipes={recipes} />
+      <Recipes
+        title="My Recipes"
+        recipes={myRecipes?.pages.flatMap(page => page) || []}
+        fetchNextPage={fetchMyRecipesNextPage}
+        isFetching={myRecipesIsFetching}
+        hasNextPage={myRecipesHasNextPage}
+      />
+      <Recipes  
+        title="Saved Recipes" 
+        recipes={[]} 
+        isFetching={myRecipesIsFetching}
+      />
+      <Recipes
+        title="Discover"
+        recipes={discoverRecipes?.pages.flatMap(page => page) || []}
+        fetchNextPage={fetchDiscoverRecipesNextPage}
+        isFetching={discoverRecipesIsFetching}
+        hasNextPage={discoverHasRecipesNextPage}
+      />
     </MainLayout>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

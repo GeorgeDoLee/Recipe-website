@@ -3,7 +3,6 @@ import Recipe from "../models/Recipe.js";
 const publishRecipe =  async (req, res, next) => {
     try {
         const { title, description, ingredients, totalTime } = req.body;
-        const authorId = req.user._id;
 
         const recipe = await Recipe.create({
             title,
@@ -22,23 +21,21 @@ const publishRecipe =  async (req, res, next) => {
 
 const getRecipes = async (req, res, next) => {
     try {
-      let recipes;
+        let filter = {};
+        if (req.params.authorId) {
+            filter.authorId = req.params.authorId;
+        }
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 3;
+        const skip = (page - 1) * limit;
+
+        const recipes = await Recipe.find(filter).skip(skip).limit(limit) || [];
   
-      let filter = {};
-      if (req.params.authorId) {
-        filter.authorId = req.params.authorId;
-      }
-      recipes = await Recipe.find(filter);
-  
-      if (!recipes.length) {
-        return res.status(200).json({ message: 'There are no recipes to display.' });
-      }
-  
-      return res.status(200).json(recipes);
+        return res.status(200).json(recipes);
     } catch (error) {
-      next(error);
+        next(error);
     }
-  };
+};
   
 const getRecipe = async (req, res, next) => {
     try {
