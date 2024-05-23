@@ -25,6 +25,7 @@ const ProfilePage = () => {
     const {
         data: userRecipes,
         isFetching: userRecipesIsFetching,
+        isFetchingNextPage: myRecipesIsFetchingNextPage,
         error: userRecipesError,
         fetchNextPage: fetchUserRecipesNextPage,
         hasNextPage: userRecipesHasNextPage
@@ -74,6 +75,7 @@ const ProfilePage = () => {
                             recipes={userRecipes?.pages.flatMap(page => page) || []}
                             fetchNextPage={fetchUserRecipesNextPage}
                             isFetching={userRecipesIsFetching}
+                            isFetchingNextPage={myRecipesIsFetchingNextPage}
                             hasNextPage={userRecipesHasNextPage}
                         />
                         {id === loggedUser?._id && 

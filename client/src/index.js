@@ -14,6 +14,7 @@ import ProfilePage from './pages/Profile/ProfilePage';
 import EditProfile from './pages/Profile/EditProfile';
 import RecipePage from './pages/RecipePage';
 import MyRecipesPage from './pages/MyRecipesPage';
+import SavedRecipesPage from './pages/SavedRecipesPage';
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: '/my-recipes',
     element: <MyRecipesPage />
+  },
+  {
+    path: '/saved-recipes',
+    element: <SavedRecipesPage />
   },
   {
     path: '/recipe/:id',

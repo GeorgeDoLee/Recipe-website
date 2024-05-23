@@ -10,6 +10,7 @@ const MyRecipesPage = () => {
     const {
         data: userRecipes,
         isFetching: userRecipesIsFetching,
+        isFetchingNextPage: myRecipesIsFetchingNextPage,
         error: userRecipesError,
         fetchNextPage: fetchUserRecipesNextPage,
         hasNextPage: userRecipesHasNextPage
@@ -31,6 +32,7 @@ const MyRecipesPage = () => {
             recipes={userRecipes?.pages.flatMap(page => page) || []}
             fetchNextPage={fetchUserRecipesNextPage}
             isFetching={userRecipesIsFetching}
+            isFetchingNextPage={myRecipesIsFetchingNextPage}
             hasNextPage={userRecipesHasNextPage}
         />
     </MainLayout>

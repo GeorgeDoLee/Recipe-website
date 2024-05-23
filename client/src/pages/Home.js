@@ -11,6 +11,7 @@ const Home = () => {
   const {
     data: myRecipes,
     isFetching: myRecipesIsFetching,
+    isFetchingNextPage: myRecipesIsFetchingNextPage,
     error: myRecipesError,
     fetchNextPage: fetchMyRecipesNextPage,
     hasNextPage: myRecipesHasNextPage
@@ -27,6 +28,7 @@ const Home = () => {
   const {
     data: discoverRecipes,
     isFetching: discoverRecipesIsFetching,
+    isFetchingNextPage: discoverRecipesIsFetchingNextPage,
     error: discoverRecipesError,
     fetchNextPage: fetchDiscoverRecipesNextPage,
     hasNextPage: discoverHasRecipesNextPage
@@ -48,6 +50,7 @@ const Home = () => {
         recipes={myRecipes?.pages.flatMap(page => page) || []}
         fetchNextPage={fetchMyRecipesNextPage}
         isFetching={myRecipesIsFetching}
+        isFetchingNextPage={myRecipesIsFetchingNextPage}
         hasNextPage={myRecipesHasNextPage}
       />
       <Recipes  
@@ -60,6 +63,7 @@ const Home = () => {
         recipes={discoverRecipes?.pages.flatMap(page => page) || []}
         fetchNextPage={fetchDiscoverRecipesNextPage}
         isFetching={discoverRecipesIsFetching}
+        isFetchingNextPage={discoverRecipesIsFetchingNextPage}
         hasNextPage={discoverHasRecipesNextPage}
       />
     </MainLayout>

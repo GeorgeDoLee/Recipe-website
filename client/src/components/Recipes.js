@@ -3,7 +3,7 @@ import Recipe from './Recipe';
 import { useNavigate } from 'react-router';
 import RecipeLoading from './loading components/RecipeLoading';
 
-const Recipes = ({title, recipes, fetchNextPage, isFetching, hasNextPage}) => {
+const Recipes = ({title, recipes, fetchNextPage, isFetching, isFetchingNextPage, hasNextPage}) => {
   return (
     <section className='container px-5 py-5'>
         <div className='flex flex-col'>
@@ -13,7 +13,7 @@ const Recipes = ({title, recipes, fetchNextPage, isFetching, hasNextPage}) => {
                     <Recipe key={index} recipe={recipe} />
                   ))
               }
-              {isFetching && Array.from({length: 3}).map((_, index) => (
+              {((isFetching && recipes.length === 0) || isFetchingNextPage) && Array.from({length: 3}).map((_, index) => (
                   <RecipeLoading key={index} />
                 ))
               }
