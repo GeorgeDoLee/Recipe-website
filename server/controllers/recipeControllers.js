@@ -21,15 +21,13 @@ const publishRecipe =  async (req, res, next) => {
 
 const getRecipes = async (req, res, next) => {
     try {
-        let filter = {};
-        if (req.params.authorId) {
-            filter.authorId = req.params.authorId;
-        }
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 3;
+        let { page, limit, ...filters} = req.query;
+    
+        page = parseInt(page) || 1;
+        limit = parseInt(limit) || 3;
         const skip = (page - 1) * limit;
-
-        const recipes = await Recipe.find(filter).skip(skip).limit(limit) || [];
+        
+        const recipes = await Recipe.find(filters).skip(skip).limit(limit) || [];
   
         return res.status(200).json(recipes);
     } catch (error) {

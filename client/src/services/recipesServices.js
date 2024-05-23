@@ -1,11 +1,15 @@
 import axios from "axios";
 
-export const getRecipes = async (pagination, authorId) => {
+export const getRecipes = async (pagination, filters) => {
     try {
         const { page, limit } = pagination;
-        const query = `?page=${page}&limit=${limit}`
-        const author = authorId ? authorId : '';
-        const { data } = await axios.get(`/api/recipe/recipes/${author}${query}`);
+        let query = `?page=${page}&limit=${limit}`
+        if (filters) {
+            Object.keys(filters).forEach(key => {
+                query += `&${key}=${encodeURIComponent(filters[key])}`;
+            });
+        }
+        const { data } = await axios.get(`/api/recipe/recipes/${query}`);
         await new Promise(resolve => setTimeout(resolve, 1000));
         return data;
     } catch (error) {

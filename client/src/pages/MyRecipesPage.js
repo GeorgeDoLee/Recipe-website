@@ -16,10 +16,15 @@ const MyRecipesPage = () => {
         hasNextPage: userRecipesHasNextPage
       } = useInfiniteQuery({
         queryKey: [`${loggedUser.name}Recipes`],
-        queryFn: ({ pageParam = 1 }) => getRecipes({ 
-          page: pageParam, 
-          limit: 9 
-        }, loggedUser._id),
+        queryFn: ({ pageParam = 1 }) => getRecipes(
+            { 
+                page: pageParam, 
+                limit: 9 
+            },
+            {
+                authorId: loggedUser._id
+            }
+        ),
         getNextPageParam: (lastPage, allPages) => {
           return lastPage.length < 9 ? undefined : allPages.length + 1;
         }

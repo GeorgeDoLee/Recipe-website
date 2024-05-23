@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 const RecipeLoading = () => {
 
   return (
-    <div className='flex flex-col items-center gap-3 md:items-stretch md:flex-row animate-pulse'>
+    <div className='flex flex-col items-center gap-3 opacity-80 md:items-stretch md:flex-row animate-pulse'>
       <div className='w-20 h-20 rounded-md md:w-36 md:h-36 bg-blue-rich' />
       
       <div className='flex flex-col gap-3 items-center md:items-stretch md:justify-between  md:w-[180px] text-blue-rich'>

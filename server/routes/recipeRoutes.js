@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/publish-recipe', authGuard, publishRecipe)
 router.get('/recipes', getRecipes)
-router.get('/recipes/:authorId', getRecipes)
+// router.get('/recipes/:authorId', getRecipes)
 router.get('/recipe/:id', getRecipe);
 router.put('/update-recipe', authGuard, updateRecipe);
 router.delete('/delete-recipe', authGuard, deleteRecipe);

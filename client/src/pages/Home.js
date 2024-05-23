@@ -17,9 +17,15 @@ const Home = () => {
     hasNextPage: myRecipesHasNextPage
   } = useInfiniteQuery({
     queryKey: ['myRecipes'],
-    queryFn: ({ pageParam = 1 }) => getRecipes({ 
-      page: pageParam, limit: 3 
-    }, userInfo._id),
+    queryFn: ({ pageParam = 1 }) => getRecipes(
+      { 
+        page: pageParam, 
+        limit: 3 
+      },
+      { 
+        authorId: userInfo._id 
+      }
+    ),
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length < 3 ? undefined : allPages.length + 1;
     }

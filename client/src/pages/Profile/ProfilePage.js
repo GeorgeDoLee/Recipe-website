@@ -31,12 +31,17 @@ const ProfilePage = () => {
         hasNextPage: userRecipesHasNextPage
       } = useInfiniteQuery({
         queryKey: [`${username}Recipes`],
-        queryFn: ({ pageParam = 1 }) => getRecipes({ 
-          page: pageParam, 
-          limit: 6 
-        }, id),
+        queryFn: ({ pageParam = 1 }) => getRecipes(
+            { 
+                page: pageParam, 
+                limit: 3
+            },
+            { 
+                authorId: id
+            } 
+        ),
         getNextPageParam: (lastPage, allPages) => {
-          return lastPage.length < 6 ? undefined : allPages.length + 1;
+          return lastPage.length < 3 ? undefined : allPages.length + 1;
         }
     });
 

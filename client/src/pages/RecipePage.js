@@ -5,8 +5,6 @@ import Recipes from '../components/Recipes';
 import { getRecipe } from '../services/recipesServices';
 import { useQuery } from '@tanstack/react-query';
 
-const ingredients = ['eggs', 'bread', 'cheese', 'oil', 'water', 'salt', 'pepper']
-
 const RecipePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -59,7 +57,6 @@ const RecipePage = () => {
                     </div>
                 </div>
             </div>
-            <Recipes title='Similar Recepies' length={6} />
         </section>
     </MainLayout>
   )

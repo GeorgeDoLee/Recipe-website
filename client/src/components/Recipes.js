@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import Recipe from './Recipe';
-import { useNavigate } from 'react-router';
 import RecipeLoading from './loading components/RecipeLoading';
 
 const Recipes = ({title, recipes, fetchNextPage, isFetching, isFetchingNextPage, hasNextPage}) => {
