@@ -3,11 +3,18 @@ import { useNavigate, useParams } from 'react-router'
 import MainLayout from '../components/MainLayout';
 import Recipes from '../components/Recipes';
 import { getRecipe, getRecipes } from '../services/recipesServices';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { updateProfile } from '../services/userServices';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserInfo } from '../store/reducers/userReducers';
+import toast from 'react-hot-toast';
 
 const RecipePage = () => {
     const { id } = useParams();
+    const userInfo = useSelector(state => state.user.userInfo);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const queryClient = useQueryClient();
     const { data: recipe, isLoading: recipeIsLoading, error: recipeError } = useQuery({
         queryFn: () => {
             return getRecipe(id);
@@ -38,7 +45,42 @@ const RecipePage = () => {
           return lastPage.length < 3 ? undefined : allPages.length + 1;
         }
     });
+
+    const {mutate: updateSavedRecipes , isLoading: updateIsLoading} = useMutation({
+        mutationFn: ({ _id, save }) => {
+            return updateProfile({
+                    token: userInfo.token,
+                    userData: {
+                        recipe: { _id, save }
+                    }
+                }
+            );
+        },
+        onSuccess: (data) => {
+            dispatch(setUserInfo(data));
+            queryClient.invalidateQueries([`recipe/${id}`, 'profile']);
+            toast.success('Saved recipes updated')
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        }
+    })
+
+    const saveHandler = () => {
+        const { _id } = recipe;
+        updateSavedRecipes({
+            _id,
+            save: true
+        })
+    }
     
+    const unsaveHandler = () => {
+        const { _id } = recipe;
+        updateSavedRecipes({
+            _id,
+            save: false
+        })
+    }
   return (
     <MainLayout>
         <section className='container px-10 py-10 lg:px-16'>
@@ -50,6 +92,20 @@ const RecipePage = () => {
                         <div className='flex flex-col gap-2 md:items-center md:flex-row'>
                             <h1 className='text-xl font-bold md:text-2xl'>{recipe?.title}</h1>
                             <span>star rating</span>
+                            <button 
+                                onClick={() => saveHandler()} 
+                                className={`px-5 py-2 ${userInfo?.savedRecipes?.includes(id) ? 'bg-blue-rich text-cornstick' : 'text-blue-rich bg-transparent'} border rounded-md cursor-pointer border-blue-rich`}
+                            >
+                                {userInfo?.savedRecipes?.includes(id) ? 'Saved' : 'Save Recipe' }
+                            </button>
+                            {userInfo?.savedRecipes?.includes(id) &&
+                                <button 
+                                    onClick={() => unsaveHandler()}
+                                    className='px-5 py-2 border rounded-md cursor-pointer border-blue-rich'
+                                >
+                                    Unsave
+                                </button>
+                            }
                         </div>
                         <h2 onClick={() => navigate(`/profile/${recipe.author}/${recipe.authorId}`)} className='text-base md:text-lg'>{recipe?.author}</h2>
                     </div>

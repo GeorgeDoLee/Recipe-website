@@ -20,6 +20,7 @@ export const updateProfile = async ({token, userData}) => {
                 Authorization: `Bearer ${token}`,
             }
         }
+
         const { data } = await axios.put('/api/user/update-profile', userData, config)
         return data;
     } catch (error) {

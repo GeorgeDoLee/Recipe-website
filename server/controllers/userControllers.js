@@ -32,10 +32,20 @@ const updateProfile = async (req, res, next) => {
 
         user.name = req.body.newName || user.name;
         user.email = req.body.newEmail || user.email;
+
         if(req.body.newPassword && req.body.newPassword < 8){
             throw new Error('password must be at least 8 characters');
         } else if(req.body.newPassword){
             user.password = req.body.newPassword;
+        }
+
+        const { recipe } = req.body;
+        if(recipe){
+            if(recipe.save && !user.savedRecipes.includes(recipe._id)){
+                user.savedRecipes.push(recipe._id);
+            } else if(!recipe.save){
+                user.savedRecipes = user.savedRecipes.filter(id => id !== recipe._id);
+            }
         }
 
         const updatedUserProfile = await user.save();
@@ -46,6 +56,7 @@ const updateProfile = async (req, res, next) => {
             email: updatedUserProfile.email,
             password: updatedUserProfile.password,
             avatar: updatedUserProfile.avatar,
+            savedRecipes: updatedUserProfile.savedRecipes,
             token: await updatedUserProfile.generateJWT()
         })
     } catch (error) {

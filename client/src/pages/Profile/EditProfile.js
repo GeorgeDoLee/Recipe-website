@@ -120,8 +120,6 @@ const EditProfile = () => {
         }
     })
 
-    console.log(userInfo);
-
     const {mutate: deleteMyProfile, isLoading: deletionIsLoading} = useMutation({
         mutationFn: () => {
             return deleteProfile({
