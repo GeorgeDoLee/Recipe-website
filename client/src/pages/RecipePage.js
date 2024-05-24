@@ -37,6 +37,7 @@ const RecipePage = () => {
                 limit: 3
             },
             { 
+                category: recipe?.category,
                 ingredients: recipe?.ingredients,
                 _id: recipe?._id
             } 
@@ -108,6 +109,11 @@ const RecipePage = () => {
                             }
                         </div>
                         <h2 onClick={() => navigate(`/profile/${recipe.author}/${recipe.authorId}`)} className='text-base md:text-lg'>{recipe?.author}</h2>
+                    </div>
+
+                    <div className='flex flex-wrap gap-2'>
+                        <h2 className='text-base italic font-semibold'>category:</h2>
+                        <p className='text-sm md:text-base'>{recipe?.category}</p>
                     </div>
 
                     <div className='flex flex-wrap gap-2'>

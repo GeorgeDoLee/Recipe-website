@@ -19,7 +19,7 @@ const ProfilePage = () => {
         queryFn: () => {
             return getUserProfile(id);
         },
-        queryKey: [`profile/${id}`]
+        queryKey: ['profile']
     })
 
     const {

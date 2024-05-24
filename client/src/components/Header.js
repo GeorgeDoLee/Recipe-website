@@ -36,7 +36,7 @@ const Header = () => {
     const logoutHandler = () => {
         dispatch(resetUserInfo());
         localStorage.removeItem('account');
-        queryClient.invalidateQueries(['profile']);
+        queryClient.invalidateQueries(['profile'], ['myRecipes'], ['savedRecipes']);
     }
 
     const navVisibilityHandler = () => {

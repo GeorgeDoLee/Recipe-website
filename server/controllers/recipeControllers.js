@@ -2,11 +2,12 @@ import Recipe from "../models/Recipe.js";
 
 const publishRecipe =  async (req, res, next) => {
     try {
-        const { title, description, ingredients, totalTime } = req.body;
+        const { title, description, category, ingredients, totalTime } = req.body;
 
         const recipe = await Recipe.create({
             title,
             description,
+            category,
             ingredients,
             totalTime,
             author: req.user.name,
@@ -26,13 +27,10 @@ const getRecipes = async (req, res, next) => {
         if(filters.ingredients){
             filters.ingredients = { $in: filters.ingredients.split(',')};
             filters._id = { $ne: filters._id };
-        }
-
-        if(!filters.ingredients && filters._id){
+        } else if(filters._id){
             filters._id = filters._id.split(',');
         }
-
-        console.log(filters);
+        
         delete filters.page;
         delete filters.limit;
         const page = parseInt(req.query.page) || 1;
