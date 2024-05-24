@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 const RecipeSchema = new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
+    category: { type: String, required: true },
     ingredients: {type: [String], required: true},
     totalTime: { type: Number, required: true },
     author: { type: String, required: true },

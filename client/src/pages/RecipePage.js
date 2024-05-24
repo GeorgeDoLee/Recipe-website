@@ -92,7 +92,7 @@ const RecipePage = () => {
                         <div className='flex flex-col gap-2 md:items-center md:flex-row'>
                             <h1 className='text-xl font-bold md:text-2xl'>{recipe?.title}</h1>
                             <span>star rating</span>
-                            <button 
+                            <button
                                 onClick={() => saveHandler()} 
                                 className={`px-5 py-2 ${userInfo?.savedRecipes?.includes(id) ? 'bg-blue-rich text-cornstick' : 'text-blue-rich bg-transparent'} border rounded-md cursor-pointer border-blue-rich`}
                             >

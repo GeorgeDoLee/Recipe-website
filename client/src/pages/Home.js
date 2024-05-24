@@ -30,6 +30,29 @@ const Home = () => {
       return lastPage.length < 3 ? undefined : allPages.length + 1;
     }
   });
+  
+  const {
+    data: savedRecipes,
+    isFetching: savedRecipesIsFetching,
+    isFetchingNextPage: savedRecipesIsFetchingNextPage,
+    error: savedRecipesError,
+    fetchNextPage: fetchSavedRecipesNextPage,
+    hasNextPage: savedRecipesHasNextPage
+  } = useInfiniteQuery({
+    queryKey: ['savedRecipes'],
+    queryFn: ({ pageParam = 1 }) => getRecipes(
+      { 
+        page: pageParam, 
+        limit: 3 
+      },
+      { 
+        _id: userInfo.savedRecipes || []
+      }
+    ),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length < 3 ? undefined : allPages.length + 1;
+    }
+  });
 
   const {
     data: discoverRecipes,
@@ -63,8 +86,11 @@ const Home = () => {
       />
       <Recipes  
         title="Saved Recipes" 
-        recipes={[]} 
-        isFetching={myRecipesIsFetching}
+        recipes={savedRecipes?.pages.flatMap(page => page) || []}
+        fetchNextPage={fetchSavedRecipesNextPage}
+        isFetching={savedRecipesIsFetching}
+        isFetchingNextPage={savedRecipesIsFetchingNextPage}
+        hasNextPage={savedRecipesHasNextPage}
       />
       <Recipes
         title="Discover"

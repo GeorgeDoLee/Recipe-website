@@ -22,6 +22,7 @@ const signup = async (req, res, next) => {
             email: user.email,
             password: user.password,
             avatar: user.avatar,
+            savedRecipes: user.savedRecipes,
             token: await user.generateJWT()
         })
     } catch (error) {
@@ -46,6 +47,7 @@ const signin = async (req, res, next) => {
                 email: user.email,
                 password: user.password,
                 avatar: user.avatar,
+                savedRecipes: user.savedRecipes,
                 token: await user.generateJWT()
             })
         } else {

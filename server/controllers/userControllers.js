@@ -10,7 +10,8 @@ const userProfile = async (req, res, next) => {
                 name: user.name,
                 email: user.email,
                 password: user.password,
-                avatar: user.avatar
+                avatar: user.avatar,
+                savedRecipes: user.savedRecipes
             })
         } else {
             let error = new Error('user not found');

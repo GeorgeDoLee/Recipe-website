@@ -45,6 +45,29 @@ const ProfilePage = () => {
         }
     });
 
+    const {
+        data: savedRecipes,
+        isFetching: savedRecipesIsFetching,
+        isFetchingNextPage: savedRecipesIsFetchingNextPage,
+        error: savedRecipesError,
+        fetchNextPage: fetchSavedRecipesNextPage,
+        hasNextPage: savedRecipesHasNextPage
+      } = useInfiniteQuery({
+        queryKey: ['savedRecipes'],
+        queryFn: ({ pageParam = 1 }) => getRecipes(
+          { 
+            page: pageParam, 
+            limit: 3 
+          },
+          { 
+            _id: userInfo.savedRecipes || []
+          }
+        ),
+        getNextPageParam: (lastPage, allPages) => {
+          return lastPage.length < 3 ? undefined : allPages.length + 1;
+        }
+      });
+
     return (
         <MainLayout>
             <section className='container p-5 pb-12'>
@@ -84,10 +107,14 @@ const ProfilePage = () => {
                             hasNextPage={userRecipesHasNextPage}
                         />
                         {id === loggedUser?._id && 
-                            <Recipes 
-                                title='Saved Recipes' 
-                                recipes={[]} 
-                            /> 
+                            <Recipes  
+                                title="Saved Recipes" 
+                                recipes={savedRecipes?.pages.flatMap(page => page) || []}
+                                fetchNextPage={fetchSavedRecipesNextPage}
+                                isFetching={savedRecipesIsFetching}
+                                isFetchingNextPage={savedRecipesIsFetchingNextPage}
+                                hasNextPage={savedRecipesHasNextPage}
+                            />
                         }
                     </>
                     : null

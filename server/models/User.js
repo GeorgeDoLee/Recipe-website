@@ -8,7 +8,6 @@ const UserSchema = new Schema({
     password: { type: String, required: true },
     avatar: { type: String, default: '' },
     savedRecipes: [{ type: String}],
-    myRecipes: [{ type: String}],
 }, {timestamps: true});
 
 UserSchema.pre('save', async function(next) {

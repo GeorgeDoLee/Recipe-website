@@ -28,6 +28,11 @@ const getRecipes = async (req, res, next) => {
             filters._id = { $ne: filters._id };
         }
 
+        if(!filters.ingredients && filters._id){
+            filters._id = filters._id.split(',');
+        }
+
+        console.log(filters);
         delete filters.page;
         delete filters.limit;
         const page = parseInt(req.query.page) || 1;
