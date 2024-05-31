@@ -83,6 +83,32 @@ const updateRecipe = async (req, res, next) => {
     }
 }
 
+const rateRecipe = async (req, res, next) => {
+    try {
+        let recipe = await Recipe.findById(req.body._id);
+
+        if (req.body.rating && req.body.ratingAuthorId) {
+            const ratingAuthorId = req.body.ratingAuthorId;
+            const newRating = req.body.rating;
+            let existingRatingIndex = recipe.ratings.findIndex(rating => rating.userId.equals(ratingAuthorId));
+    
+            if (existingRatingIndex !== -1) {
+                if (recipe.ratings[existingRatingIndex].rating !== newRating) {
+                    recipe.ratings[existingRatingIndex].rating = newRating;
+                }
+            } else {
+                recipe.ratings.push({ userId: ratingAuthorId, rating: newRating });
+            }
+        }
+
+        const updatedRecipe = await recipe.save();
+
+        return res.status(200);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const deleteRecipe = async (req, res, next) => {
     try {
         let recipe = await Recipe.findById(req.body._id);
@@ -100,4 +126,4 @@ const deleteRecipe = async (req, res, next) => {
     }
 }
 
-export {publishRecipe, getRecipes, getRecipe, updateRecipe, deleteRecipe}
+export {publishRecipe, getRecipes, getRecipe, updateRecipe, deleteRecipe, rateRecipe}

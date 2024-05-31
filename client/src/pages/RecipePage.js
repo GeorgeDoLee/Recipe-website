@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import MainLayout from '../components/MainLayout';
 import Recipes from '../components/Recipes';
@@ -8,6 +8,7 @@ import { updateProfile } from '../services/userServices';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserInfo } from '../store/reducers/userReducers';
 import toast from 'react-hot-toast';
+import StarRating from '../components/StarRating';
 
 const RecipePage = () => {
     const { id } = useParams();
@@ -82,6 +83,7 @@ const RecipePage = () => {
             save: false
         })
     }
+
   return (
     <MainLayout>
         <section className='container px-10 py-10 lg:px-16'>
@@ -90,23 +92,27 @@ const RecipePage = () => {
 
                 <div className='flex flex-col gap-5 lg:gap-5 text-blue-rich'>
                     <div className='flex flex-col self-start gap-1'>
-                        <div className='flex flex-col gap-2 md:items-center md:flex-row'>
-                            <h1 className='text-xl font-bold md:text-2xl'>{recipe?.title}</h1>
-                            <span>star rating</span>
-                            <button
-                                onClick={() => saveHandler()} 
-                                className={`px-5 py-2 ${userInfo?.savedRecipes?.includes(id) ? 'bg-blue-rich text-cornstick' : 'text-blue-rich bg-transparent'} border rounded-md cursor-pointer border-blue-rich`}
-                            >
-                                {userInfo?.savedRecipes?.includes(id) ? 'Saved' : 'Save Recipe' }
-                            </button>
-                            {userInfo?.savedRecipes?.includes(id) &&
-                                <button 
-                                    onClick={() => unsaveHandler()}
-                                    className='px-5 py-2 border rounded-md cursor-pointer border-blue-rich'
+                        <div className='flex flex-col gap-56 md:items-center md:flex-row'>
+                            <div className='flex items-center justify-center gap-5'>
+                                <h1 className='text-xl font-bold md:text-2xl'>{recipe?.title}</h1>
+                                <StarRating id={id} />
+                            </div>
+                            <div className='flex gap-2'>
+                                <button
+                                    onClick={() => saveHandler()} 
+                                    className={`px-5 py-2 ${userInfo?.savedRecipes?.includes(id) ? 'bg-blue-rich text-cornstick' : 'text-blue-rich bg-transparent'} border rounded-md cursor-pointer border-blue-rich`}
                                 >
-                                    Unsave
+                                    {userInfo?.savedRecipes?.includes(id) ? 'Saved' : 'Save Recipe' }
                                 </button>
-                            }
+                                {userInfo?.savedRecipes?.includes(id) &&
+                                    <button 
+                                        onClick={() => unsaveHandler()}
+                                        className='px-5 py-2 border rounded-md cursor-pointer border-blue-rich'
+                                    >
+                                        Unsave
+                                    </button>
+                                }
+                            </div>
                         </div>
                         <h2 onClick={() => navigate(`/profile/${recipe.author}/${recipe.authorId}`)} className='text-base md:text-lg'>{recipe?.author}</h2>
                     </div>

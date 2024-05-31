@@ -33,3 +33,15 @@ export const getRecipe = async (id) => {
         throw new Error(error.message)
     }
 }
+
+export const rateRecipe = async (updates) => {
+    try {
+        const { data } = await axios.put('/api/recipe/rate-recipe', updates);
+        return data;
+    } catch (error) {
+        if(error.response && error.response.data.message){
+            throw new Error(error.response.data.message)
+        }
+        throw new Error(error.message)
+    }
+}
