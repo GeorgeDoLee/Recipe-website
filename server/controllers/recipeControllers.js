@@ -30,7 +30,7 @@ const getRecipes = async (req, res, next) => {
         } else if(filters._id){
             filters._id = filters._id.split(',');
         }
-        
+
         delete filters.page;
         delete filters.limit;
         const page = parseInt(req.query.page) || 1;

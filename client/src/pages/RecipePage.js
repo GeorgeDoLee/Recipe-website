@@ -91,8 +91,8 @@ const RecipePage = () => {
                 <div className='w-48 h-48 rounded-md lg:w-64 lg:h-64 bg-blue-rich' />
 
                 <div className='flex flex-col gap-5 lg:gap-5 text-blue-rich'>
-                    <div className='flex flex-col self-start gap-1'>
-                        <div className='flex flex-col gap-56 md:items-center md:flex-row'>
+                    <div className='flex flex-col gap-1'>
+                        <div className='flex flex-col justify-between md:items-center md:flex-row'>
                             <div className='flex items-center justify-center gap-5'>
                                 <h1 className='text-xl font-bold md:text-2xl'>{recipe?.title}</h1>
                                 <StarRating id={id} />

@@ -3,7 +3,6 @@ import axios from "axios";
 export const getRecipes = async (pagination, filters) => {
     try {
         const { page, limit } = pagination;
-
         let query = `?page=${page}&limit=${limit}`
         if (filters) {
             Object.keys(filters).forEach(key => {
