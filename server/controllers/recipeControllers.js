@@ -70,9 +70,9 @@ const updateRecipe = async (req, res, next) => {
             throw new Error('You can\'t edit this recipe');
         }
 
-        recipe.title = req.body.newTitle || recipe.title;
-        recipe.description = req.body.newDescription || recipe.description;
-        recipe.ingredients = req.body.newIngredients || recipe.ingredients;
+        recipe.title = req.body.title || recipe.title;
+        recipe.description = req.body.description || recipe.description;
+        recipe.ingredients = req.body.ingredients || recipe.ingredients;
         recipe.totalTime = req.body.totalTime || recipe.totalTime;
 
         const updatedRecipe = await recipe.save();
@@ -101,8 +101,6 @@ const rateRecipe = async (req, res, next) => {
             }
         }
 
-        const updatedRecipe = await recipe.save();
-
         return res.status(200);
     } catch (error) {
         next(error);
@@ -111,7 +109,7 @@ const rateRecipe = async (req, res, next) => {
 
 const deleteRecipe = async (req, res, next) => {
     try {
-        let recipe = await Recipe.findById(req.body._id);
+        let recipe = await Recipe.findById(req.query._id);
 
         if(!recipe){
             throw new Error('recipe not found');

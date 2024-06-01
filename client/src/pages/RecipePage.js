@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from 'react-router'
 import MainLayout from '../components/MainLayout';
 import Recipes from '../components/Recipes';
-import { getRecipe } from '../services/recipesServices';
+import { deleteRecipe, getRecipe } from '../services/recipesServices';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { updateProfile } from '../services/userServices';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,6 +44,19 @@ const RecipePage = () => {
         }
     })
 
+    const {mutate: deleteHandler , isLoading: deleteIsLoading} = useMutation({
+        mutationFn: () => {
+            return deleteRecipe(userInfo.token, id);
+        },
+        onSuccess: () => {
+            toast.success('Recipe deleted Successfully');
+            navigate('/');
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        }
+    })
+
     const saveHandler = () => {
         const { _id } = recipe;
         updateSavedRecipes({
@@ -69,7 +82,7 @@ const RecipePage = () => {
                 <div className='flex flex-col items-center gap-8 mb-12 md:items-start md:justify-start lg:gap-10 md:flex-row'>
                     <div className='w-48 h-48 rounded-md lg:w-64 lg:h-64 bg-blue-rich' />
 
-                    <div className='flex flex-col gap-5 lg:gap-5 text-blue-rich'>
+                    <div className='flex flex-col w-[50%] gap-5 lg:gap-5 text-blue-rich'>
                         <div className='flex flex-col gap-1'>
                             <div className='flex flex-col justify-between md:items-center md:flex-row'>
                                 <div className='flex items-center justify-center gap-5'>
@@ -77,20 +90,35 @@ const RecipePage = () => {
                                     <StarRating id={id} />
                                 </div>
                                 <div className='flex gap-2'>
-                                    <button
-                                        onClick={() => saveHandler()} 
-                                        className={`px-5 py-2 ${userInfo?.savedRecipes?.includes(id) ? 'bg-blue-rich text-cornstick' : 'text-blue-rich bg-transparent'} border rounded-md cursor-pointer border-blue-rich`}
-                                    >
-                                        {userInfo?.savedRecipes?.includes(id) ? 'Saved' : 'Save Recipe' }
-                                    </button>
-                                    {userInfo?.savedRecipes?.includes(id) &&
-                                        <button 
-                                            onClick={() => unsaveHandler()}
-                                            className='px-5 py-2 border rounded-md cursor-pointer border-blue-rich'
-                                        >
-                                            Unsave
-                                        </button>
-                                    }
+                                    {userInfo._id === recipe.authorId ? (
+                                        <div className='flex gap-2'>
+                                            <button 
+                                                onClick={() => navigate(`/edit-recipe/${recipe._id}`)} 
+                                                className='px-5 py-2 border rounded-md cursor-pointer border-blue-rich'
+                                            >Edit</button>
+                                            <button 
+                                                onClick={() => deleteHandler()}
+                                                className='px-5 py-2 border rounded-md cursor-pointer border-blue-rich'
+                                            >Delete</button>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <button
+                                                onClick={() => saveHandler()} 
+                                                className={`px-5 py-2 ${userInfo.savedRecipes?.includes(id) ? 'bg-blue-rich text-cornstick' : 'text-blue-rich bg-transparent'} border rounded-md cursor-pointer border-blue-rich`}
+                                            >
+                                                {userInfo.savedRecipes?.includes(id) ? 'Saved' : 'Save Recipe' }
+                                            </button>
+                                            {userInfo.savedRecipes?.includes(id) &&
+                                                <button 
+                                                    onClick={() => unsaveHandler()}
+                                                    className='px-5 py-2 border rounded-md cursor-pointer border-blue-rich'
+                                                >
+                                                    Unsave
+                                                </button>
+                                            }
+                                        </>
+                                    )}
                                 </div>
                             </div>
                             <h2 onClick={() => navigate(`/profile/${recipe.author}/${recipe.authorId}`)} className='text-base md:text-lg'>{recipe?.author}</h2>

@@ -16,6 +16,8 @@ import RecipePage from './pages/RecipePage';
 import MyRecipesPage from './pages/MyRecipesPage';
 import SavedRecipesPage from './pages/SavedRecipesPage';
 import SearchResultsPage from './pages/SearchResultsPage';
+import AddRecipePage from './pages/AddRecipePage';
+import EditRecipePage from './pages/EditRecipePage';
 
 const queryClient = new QueryClient();
 
@@ -57,6 +59,14 @@ const router = createBrowserRouter([
   {
     path: '/search-results',
     element: <SearchResultsPage />
+  },
+  {
+    path: '/add-recipe',
+    element: <AddRecipePage />
+  },
+  {
+    path: '/edit-recipe/:id',
+    element: <EditRecipePage />
   }
 ])
 
