@@ -9,7 +9,7 @@ export const getRecipes = async (pagination, filters) => {
                 query += `&${key}=${encodeURIComponent(filters[key])}`;
             });
         }
-
+        
         const { data } = await axios.get(`/api/recipe/recipes/${query}`);
         await new Promise(resolve => setTimeout(resolve, 1000)); // just to demonstrate loading screen
         return data;

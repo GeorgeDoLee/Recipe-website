@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import MainLayout from '../components/MainLayout';
 import Recipes from '../components/Recipes';
-import { getRecipe, getRecipes } from '../services/recipesServices';
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getRecipe } from '../services/recipesServices';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { updateProfile } from '../services/userServices';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserInfo } from '../store/reducers/userReducers';
