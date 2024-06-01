@@ -3,6 +3,7 @@ import axios from 'axios'
 export const getUserProfile = async (id) => {
     try {
         const { data } = await axios.get(`/api/user/profile/${id}`)
+        await new Promise(resolve => setTimeout(resolve, 1000)); // just to demonstrate loading screen
         return data;
     } catch (error) {
         if(error.response && error.response.data.message){

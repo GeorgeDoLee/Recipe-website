@@ -11,7 +11,7 @@ export const getRecipes = async (pagination, filters) => {
         }
 
         const { data } = await axios.get(`/api/recipe/recipes/${query}`);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1000)); // just to demonstrate loading screen
         return data;
     } catch (error) {
         if(error.response && error.response.data.message){
@@ -24,6 +24,7 @@ export const getRecipes = async (pagination, filters) => {
 export const getRecipe = async (id) => {
     try {
         const { data } = await axios.get(`/api/recipe/recipe/${id}`);
+        await new Promise(resolve => setTimeout(resolve, 1000)); // just to demonstrate loading screen
         return data;
     } catch (error) {
         if(error.response && error.response.data.message){
